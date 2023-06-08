@@ -21,7 +21,7 @@ const Footer = ({ mobile }) => {
     };
   }, []);
 
-  if (windowSize.width < 600) {
+  if (windowSize.width < 900) {
     return (
       <footer className="absolute bottom-0 w-screen overflow-hidden pointer-events-none">
         <svg
@@ -67,6 +67,7 @@ const Footer = ({ mobile }) => {
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           version="1.1"
+          className={`${windowSize.width > 3000 ? 'w-full h-auto' : ''}`}
         >
           <path
             d="M0 315L71.5 322.2C143 329.3 286 343.7 428.8 356.8C571.7 370 714.3 382 857.2 384.3C1000 386.7 1143 379.3 1285.8 367.2C1428.7 355 1571.3 338 1714.2 341C1857 344 2000 367 2142.8 366C2285.7 365 2428.3 340 2571.2 330C2714 320 2857 325 2928.5 327.5L3000 330L3000 541L2928.5 541C2857 541 2714 541 2571.2 541C2428.3 541 2285.7 541 2142.8 541C2000 541 1857 541 1714.2 541C1571.3 541 1428.7 541 1285.8 541C1143 541 1000 541 857.2 541C714.3 541 571.7 541 428.8 541C286 541 143 541 71.5 541L0 541Z"
