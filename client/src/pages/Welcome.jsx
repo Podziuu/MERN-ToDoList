@@ -13,11 +13,11 @@ const Welcome = () => {
           matters!
         </h3>
         <div className="flex gap-x-4">
-          <Button text="Sign Up" filled />
-          <Button text="Log In" />
+          <Button text="Sign Up" filled link to="/signup" />
+          <Button text="Log In" link to="login" />
         </div>
       </div>
-      <Footer mobile/>
+      <Footer />
     </>
   );
 };

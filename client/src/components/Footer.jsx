@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from "react";
+import useWindowSize from "../hooks/useWindowSize";
 
-const Footer = ({ mobile }) => {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+const Footer = ({className}) => {
+  const windowSize = useWindowSize();
+  // const [windowSize, setWindowSize] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setWindowSize({
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //     });
+  //   };
 
-    window.addEventListener("resize", handleResize);
+  //   window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   if (windowSize.width < 900) {
     return (
-      <footer className="absolute bottom-0 w-screen overflow-hidden pointer-events-none">
+      <footer className={`absolute w-screen overflow-hidden pointer-events-none ${windowSize.height < 750 ? 'hidden' : 'bottom-0'} ${windowSize.width < 600 ? '-bottom-32' : 'bottom-0'} ${className}`}>
         <svg
           id="visual"
           viewBox="0 0 900 600"
           width="900"
           height="600"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
           version="1.1"
         >
           <path
@@ -58,14 +60,14 @@ const Footer = ({ mobile }) => {
     );
   } else {
     return (
-      <footer className="absolute bottom-0 w-screen overflow-hidden pointer-events-none resize-x">
+      <footer className={`absolute bottom-0 w-screen overflow-hidden pointer-events-none resize-x ${className}`}>
         <svg
           id="visual"
           viewBox="0 0 3000 540"
           width="3000"
           height="540"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
           version="1.1"
           className={`${windowSize.width > 3000 ? 'w-full h-auto' : ''}`}
         >
