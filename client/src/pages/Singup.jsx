@@ -25,7 +25,7 @@ const Singup = () => {
         </div>
         <div className="w-2/5 flex justify-center items-center sm:mb-16">
           <div>
-            <h3 className="text-3xl ml-4">Get started now!</h3>
+            <h3 className="text-3xl ml-4">Get started now! 🔥</h3>
             <p className="text-[#8C8C8C] text-sm my-2 mb-4 ml-4">
               Enter your credentials to access your account
             </p>
