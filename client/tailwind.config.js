@@ -16,6 +16,9 @@ export default {
       screens: {
         "3xl": "1730px",
       },
+      boxShadow: {
+        'checkbox': 'inset 0 0 0 4px #BB86FC'
+      }
     },
   },
   plugins: [],
