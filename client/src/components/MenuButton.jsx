@@ -18,7 +18,7 @@ const path03Variants = {
 
 const MenuButton = ({ clickHandler, isMenu }) => {
   return (
-    <button onClick={clickHandler}>
+    <button className="z-50 relative" onClick={clickHandler}>
       <svg
         width="23"
         height="23"
@@ -27,17 +27,17 @@ const MenuButton = ({ clickHandler, isMenu }) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         <motion.path
-          stroke="white"
+          stroke={isMenu ? 'black' : 'white'}
           animate={isMenu ? "open" : "closed"}
           variants={path01Variants}
         />
         <motion.path
-          stroke="white"
+          stroke={isMenu ? 'black' : 'white'}
           animate={isMenu ? "open" : "closed"}
           variants={path02Variants}
         />
         <motion.path
-          stroke="white"
+          stroke={isMenu ? 'black' : 'white'}
           animate={isMenu ? "open" : "closed"}
           variants={path03Variants}
         />

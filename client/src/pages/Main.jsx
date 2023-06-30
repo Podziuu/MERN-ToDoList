@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import MenuButton from "../components/MenuButton";
 import Task from "../components/Task";
+import Menu from "../components/Menu";
+import { AnimatePresence } from "framer-motion";
 
 const WEEK_DAYS = [
   "Monday",
@@ -27,28 +29,28 @@ const TASKS = [
   },
   {
     id: 4,
-    name: "Dishes"
+    name: "Dishes",
   },
   {
     id: 5,
-    name: "Mathematic"
+    name: "Mathematic",
   },
   {
     id: 6,
-    name: "Physics"
+    name: "Physics",
   },
   {
     id: 7,
-    name: "gdsagsdagsdaga sdgsgdsags dagdsagdsagds"
+    name: "gdsagsdagsdaga sdgsgdsags dagdsagdsagds",
   },
   {
     id: 8,
-    name: "JAcka"
+    name: "JAcka",
   },
   {
     id: 9,
-    name: "dog"
-  }
+    name: "dog",
+  },
 ];
 
 const Main = () => {
@@ -57,10 +59,9 @@ const Main = () => {
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
   };
-
-  // after:content-[''] after:-top-8 after:rounded-t-full after:scale-110 after:bg-primary after:left-0 after:right-0 after:h-16 after:absolute
   return (
     <section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">
+      <AnimatePresence>{isMenu && <Menu />}</AnimatePresence>
       <div className="flex flex-col justify-center items-center w-full">
         <div className="flex justify-between items-center p-12 w-full">
           <MenuButton clickHandler={clickHandler} isMenu={isMenu} />
@@ -73,7 +74,7 @@ const Main = () => {
         <h2 className="text-4xl text-white">Monday</h2>
       </div>
       <div className="h-2/3 bg-primary w-full relative ">
-        <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-16 pl-16 max-w-xs max-h-[470px] overflow-y-scroll">
+        <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[85%] overflow-y-scroll">
           {TASKS.map((task) => {
             return <Task key={task.id} id={task.id} name={task.name} />;
           })}
