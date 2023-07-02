@@ -18,7 +18,7 @@ const path03Variants = {
 
 const MenuButton = ({ clickHandler, isMenu }) => {
   return (
-    <button className="z-50 relative" onClick={clickHandler}>
+    <button className="z-30 relative" onClick={clickHandler}>
       <svg
         width="23"
         height="23"

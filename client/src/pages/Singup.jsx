@@ -9,7 +9,7 @@ const Singup = () => {
   return (
     <>
       <NavBar />
-      <div className="flex justify-center items-center bg-black-primary text-white h-screen">
+      <div className="flex justify-center items-center bg-black-primary text-white h-screen overflow-y-none">
         <div className="hidden xl:flex w-3/5 h-full relative bg-gradient-login bg-cover justify-center items-center">
           <div className="w-2/3 h-2/3 bg-white bg-opacity-30 backdrop-blur-lg drop-shadow-lg z-50 text-black 2xl:p-24 p-12 flex flex-col justify-center">
             <h2 className="3xl:text-7xl xl:text-6xl w-fit inline">

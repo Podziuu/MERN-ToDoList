@@ -3,6 +3,7 @@ import MenuButton from "../components/MenuButton";
 import Task from "../components/Task";
 import Menu from "../components/Menu";
 import { AnimatePresence } from "framer-motion";
+import Modal from "../components/Modal";
 
 const WEEK_DAYS = [
   "Monday",
@@ -55,10 +56,16 @@ const TASKS = [
 
 const Main = () => {
   const [isMenu, setIsMenu] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
   };
+
+  const modalHandler = (e) => {
+    setIsModal((prev) => !prev);
+  };
+
   return (
     <section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">
       <AnimatePresence>{isMenu && <Menu />}</AnimatePresence>
@@ -80,7 +87,10 @@ const Main = () => {
           })}
         </ul>
         <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10" />
-        <button className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full">
+        <button
+          className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full"
+          onClick={modalHandler}
+        >
           <svg
             width="24px"
             height="24px"
@@ -107,6 +117,9 @@ const Main = () => {
         <div />
       </div>
       <div className="bg-red-500 h-screen w-full"></div> */}
+      <AnimatePresence>
+        {isModal && <Modal onClick={modalHandler} />}
+      </AnimatePresence>
     </section>
   );
 };

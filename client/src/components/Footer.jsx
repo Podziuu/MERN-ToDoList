@@ -25,7 +25,7 @@ const Footer = ({className}) => {
 
   if (windowSize.width < 900) {
     return (
-      <footer className={`absolute w-screen overflow-hidden pointer-events-none ${windowSize.height < 750 ? 'hidden' : 'bottom-0'} ${windowSize.width < 600 ? '-bottom-32' : 'bottom-0'} ${className}`}>
+      <footer className={`absolute w-screen overflow-hidden pointer-events-none ${windowSize.height < 750 ? 'hidden' : 'bottom-0'} ${windowSize.width < 600 ? '-bottom-28' : 'bottom-0'} ${className}`}>
         <svg
           id="visual"
           viewBox="0 0 900 600"
