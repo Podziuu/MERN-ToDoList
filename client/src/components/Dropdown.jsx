@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CATEGORIES = [
@@ -26,9 +26,28 @@ const CATEGORIES = [
 
 const Dropdown = () => {
   const [isMenu, setIsMenu] = useState(false);
+  const [category, setCategory] = useState('Category')
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current?.contains(e.target)) {
+        setIsMenu(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const clickHandler = () => {
     setIsMenu((prev) => !prev);
+  };
+
+  const categoryHandler = (e) => {
+    setCategory(e.target.innerText)
   };
 
   return (
@@ -36,9 +55,10 @@ const Dropdown = () => {
       <h4 className="ml-4 text-white">Category</h4>
       <div
         onClick={clickHandler}
+        ref={dropdownRef}
         className="box-content bg-transparent border border-primary rounded-xl px-4 py-2 outline-none focus:border-2 w-64 hover:ring-2 ring-primary transition text-[#9CA3AF] flex justify-between items-center"
       >
-        <h4>Category</h4>
+        <h4 className={`${category === 'category' ? '' : 'text-white'}`}>{category}</h4>
         <svg
           fill="#9CA3AF"
           height="18px"
@@ -64,13 +84,18 @@ const Dropdown = () => {
           <motion.div
             initial={{ opacity: 0, translateY: "-50%" }}
             animate={{ opacity: 1, translateY: 0 }}
-            exit={{ opacity: 0, translateY: "-25%" }}
+            exit={{ opacity: 0, translateY: "-10%" }}
             className="absolute bg-black-primary w-full top-20 rounded-xl p-2 border-primary border text-white z-20"
           >
             <ul className="gap-y-1 flex flex-col">
               {CATEGORIES.map((cat, i) => {
                 return (
-                  <li key={i} className="flex justify-between hover:bg-primary duration-75 rounded-xl p-2">
+                  <li
+                    key={i}
+                    className="flex justify-between hover:bg-primary duration-75 rounded-xl p-2"
+                    onClick={categoryHandler}
+                    value={cat.name}
+                  >
                     <span>{cat.name}</span>
                     <span>{cat.icon}</span>
                   </li>

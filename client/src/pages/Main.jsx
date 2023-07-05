@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import { MenuButton, Task, Menu, Modal, Button } from "../components";
+import { useSelector, useDispatch } from "react-redux";
+import { changeDay } from "../store/ui-slice";
 
 const WEEK_DAYS = [
   "Monday",
@@ -64,6 +66,8 @@ const Main = () => {
   const [isMenu, setIsMenu] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const windowSize = useWindowSize();
+  const day = useSelector((state) => state.ui.day);
+  const dispatch = useDispatch();
 
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
@@ -73,10 +77,14 @@ const Main = () => {
     setIsModal((prev) => !prev);
   };
 
+  const changeDayHandler = (e) => {
+    dispatch(changeDay({ day: e.target.innerText }));
+  };
+
   if (windowSize.width < 900) {
     return (
       <section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">
-        <AnimatePresence>{isMenu && <Menu />}</AnimatePresence>
+        <AnimatePresence>{isMenu && <Menu setMenu={setIsMenu} />}</AnimatePresence>
         <div className="flex flex-col justify-center items-center w-full">
           <div className="flex justify-between items-center p-12 w-full">
             <MenuButton clickHandler={clickHandler} isMenu={isMenu} />
@@ -86,7 +94,7 @@ const Main = () => {
               alt="avatar"
             />
           </div>
-          <h2 className="text-4xl text-white">Monday</h2>
+          <h2 className="text-4xl text-white">{day}</h2>
         </div>
         <div className="h-2/3 bg-primary w-full relative ">
           <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[85%] overflow-y-scroll sm:ml-16">
@@ -128,7 +136,11 @@ const Main = () => {
           <ul className="text-xl gap-y-8 flex flex-col font-semibold">
             {WEEK_DAYS.map((day) => {
               return (
-                <li key={day} className="cursor-pointer">
+                <li
+                  onClick={changeDayHandler}
+                  key={day}
+                  className="cursor-pointer"
+                >
                   {day}
                 </li>
               );
@@ -138,7 +150,7 @@ const Main = () => {
         </div>
         <div className="bg-gradient-login bg-cover h-screen w-full">
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16">
-            <h3 className="text-4xl text-white">Monday</h3>
+            <h3 className="text-4xl text-white">{day}</h3>
             <Button
               onClick={modalHandler}
               filled
