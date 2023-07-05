@@ -11,18 +11,18 @@ const WEEK_DAYS = [
   "Sunday",
 ];
 
-const Menu = () => {
+const Menu = ({className}) => {
   return (
     <motion.div
       initial={{ opacity: 0, translateY: "40%" }}
       animate={{ opacity: 1, translateY: 0 }}
       transition={{ duration: 0.3 }}
       exit={{ opacity: 0, translateY: "40%" }}
-      className="bg-primary h-screen w-screen absolute z-30"
+      className={`bg-primary h-screen w-screen absolute z-30 ${className}`}
     >
       <ul className="flex flex-col justify-center items-center h-screen gap-y-8 font-bold text-2xl">
         {WEEK_DAYS.map((day) => {
-          return <li key={day}>{day}</li>;
+          return <li className="cursor-pointer" key={day}>{day}</li>;
         })}
       </ul>
     </motion.div>

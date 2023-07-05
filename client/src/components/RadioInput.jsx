@@ -1,17 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 const RadioInput = ({ name, text, id, checked }) => {
   const [isChecked, setIsChecked] = useState(checked);
-  const inputRef = useRef();
-
-  //   if(checked) {
-  //     inputRef.current.checked = true;
-  //   }
 
   const handleChange = (e) => {
-    setIsChecked(e.target.checked);
-    console.log(isChecked);
-    console.log(e.target.checked);
+    setIsChecked(true);
   };
 
   return (
@@ -20,10 +13,10 @@ const RadioInput = ({ name, text, id, checked }) => {
         type="radio"
         name={name}
         id={id}
-        ref={inputRef}
-        onChange={handleChange}
+        onClick={handleChange}
         className="peer absolute w-8 h-8 opacity-0"
-        checked={isChecked}
+        value={isChecked ? isChecked : checked}
+        defaultChecked={checked}
       />
       <div className="w-8 h-8 bg-transparent border-2 border-black rounded-full hidden peer-checked:flex peer-checked:border-[#3C91E6] justify-center items-center">
         <svg
