@@ -1,8 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import { NavBar, Footer, Input, Button } from "../components";
 import { Link } from "react-router-dom";
 
 const Singup = () => {

@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import MenuButton from "../components/MenuButton";
-import Task from "../components/Task";
-import Menu from "../components/Menu";
 import { AnimatePresence } from "framer-motion";
-import Modal from "../components/Modal";
 import useWindowSize from "../hooks/useWindowSize";
-import Button from "../components/Button";
+import { MenuButton, Task, Menu, Modal, Button } from "../components";
 
 const WEEK_DAYS = [
   "Monday",
@@ -56,12 +52,12 @@ const TASKS = [
   },
   {
     id: 10,
-    name: "cat"
+    name: "cat",
   },
   {
     id: 11,
-    name: 'clean'
-  }
+    name: "clean",
+  },
 ];
 
 const Main = () => {
@@ -143,7 +139,12 @@ const Main = () => {
         <div className="bg-gradient-login bg-cover h-screen w-full">
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16">
             <h3 className="text-4xl text-white">Monday</h3>
-            <Button onClick={modalHandler} filled text="Add Task" className="w-fit" />
+            <Button
+              onClick={modalHandler}
+              filled
+              text="Add Task"
+              className="w-fit"
+            />
             <img
               className="w-24 rounded-full"
               src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"

@@ -1,27 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useWindowSize from "../hooks/useWindowSize";
 
 const Footer = ({className}) => {
   const windowSize = useWindowSize();
-  // const [windowSize, setWindowSize] = useState({
-  //   width: window.innerWidth,
-  //   height: window.innerHeight,
-  // });
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setWindowSize({
-  //       width: window.innerWidth,
-  //       height: window.innerHeight,
-  //     });
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
 
   if (windowSize.width < 900) {
     return (

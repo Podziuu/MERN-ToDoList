@@ -1,7 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import Button from "../components/Button";
-import Footer from "../components/Footer";
+import { NavBar, Button, Footer } from "../components";
 
 const Welcome = () => {
   return (

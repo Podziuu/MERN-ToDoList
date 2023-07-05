@@ -1,11 +1,8 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import { NavBar, Footer, Input, Button } from "../components";
 import { Link } from "react-router-dom";
 
-const Singup = () => {
+const Signup = () => {
   return (
     <>
       <NavBar />
@@ -58,7 +55,10 @@ const Singup = () => {
               <Button text="Sign Up" filled full />
             </form>
             <p className="text-center mt-4 text-[#929292]">
-              Have an account ? <Link to="/login" className="cursor-pointer font-bold underline">Login here!</Link>
+              Have an account ?{" "}
+              <Link to="/login" className="cursor-pointer font-bold underline">
+                Login here!
+              </Link>
             </p>
           </div>
         </div>
@@ -68,4 +68,4 @@ const Singup = () => {
   );
 };
 
-export default Singup;
+export default Signup;
