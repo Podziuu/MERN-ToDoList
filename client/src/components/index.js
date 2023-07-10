@@ -9,6 +9,7 @@ import Modal from "./Modal";
 import NavBar from "./NavBar";
 import RadioInput from "./RadioInput";
 import Task from "./Task";
+import Stat from "./Stat";
 
 export {
   Backdrop,
@@ -22,4 +23,5 @@ export {
   NavBar,
   RadioInput,
   Task,
+  Stat,
 };

@@ -1,10 +1,11 @@
 import React from "react";
 import { NavBar, Footer, Input, Button } from "../components";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Signup = () => {
   return (
-    <>
+    <motion.section>
       <NavBar />
       <div className="flex justify-center items-center bg-black-primary text-white h-screen overflow-y-none">
         <div className="hidden xl:flex w-3/5 h-full relative bg-gradient-login bg-cover justify-center items-center">
@@ -64,7 +65,7 @@ const Signup = () => {
         </div>
       </div>
       <Footer className="xl:hidden" mobile />
-    </>
+    </motion.section>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-const Task = ({ id, name }) => {
+const Task = ({ id, name, className }) => {
   const checkBoxRef = useRef();
 
   const clickHandler = () => {
@@ -8,7 +8,7 @@ const Task = ({ id, name }) => {
   };
 
   return (
-    <div className="w-48 group flex items-center">
+    <div className={`w-48 group flex items-center ${className}`}>
       <input
         className="w-6 h-6 rounded-full absolute mr-4 opacity-0 z-20 peer"
         type="checkbox"

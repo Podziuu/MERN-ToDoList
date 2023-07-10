@@ -58,7 +58,7 @@ const Dropdown = () => {
         ref={dropdownRef}
         className="box-content bg-transparent border border-primary rounded-xl px-4 py-2 outline-none focus:border-2 w-64 hover:ring-2 ring-primary transition text-[#9CA3AF] flex justify-between items-center"
       >
-        <h4 className={`${category === 'category' ? '' : 'text-white'}`}>{category}</h4>
+        <h4 className={`${category === 'Category' ? '' : 'text-white'}`}>{category}</h4>
         <svg
           fill="#9CA3AF"
           height="18px"

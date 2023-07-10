@@ -1,10 +1,12 @@
 import React from "react";
 import { NavBar, Footer, Input, Button } from "../components";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Singup = () => {
   return (
-    <>
+    <motion.section
+    >
       <NavBar />
       <div className="flex justify-center items-center bg-black-primary text-white h-screen">
         <div className="hidden xl:flex w-3/5 h-full relative bg-gradient-login bg-cover justify-center items-center">
@@ -69,7 +71,7 @@ const Singup = () => {
         </div>
       </div>
       <Footer className="xl:hidden" mobile />
-    </>
+    </motion.section>
   );
 };
 

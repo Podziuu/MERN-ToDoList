@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import { MenuButton, Task, Menu, Modal, Button } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/ui-slice";
+import { Link } from "react-router-dom";
 
 const WEEK_DAYS = [
   "Monday",
@@ -83,23 +84,31 @@ const Main = () => {
 
   if (windowSize.width < 900) {
     return (
-      <section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">
-        <AnimatePresence>{isMenu && <Menu setMenu={setIsMenu} />}</AnimatePresence>
+      <motion.section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">
+        <AnimatePresence>
+          {isMenu && <Menu setMenu={setIsMenu} />}
+        </AnimatePresence>
         <div className="flex flex-col justify-center items-center w-full">
           <div className="flex justify-between items-center p-12 w-full">
             <MenuButton clickHandler={clickHandler} isMenu={isMenu} />
-            <img
-              className="w-12 rounded-full"
-              src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
-              alt="avatar"
-            />
+            <Link to="/profile">
+              <img
+                className="w-12 rounded-full"
+                src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
+                alt="avatar"
+              />
+            </Link>
           </div>
           <h2 className="text-4xl text-white">{day}</h2>
         </div>
         <div className="h-2/3 bg-primary w-full relative ">
-          <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[85%] overflow-y-scroll sm:ml-16">
+          <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[36rem] overflow-y-scroll sm:ml-16">
             {TASKS.map((task) => {
-              return <Task key={task.id} id={task.id} name={task.name} />;
+              return (
+                <li>
+                  <Task key={task.id} id={task.id} name={task.name} />
+                </li>
+              );
             })}
           </ul>
           <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10" />
@@ -126,11 +135,13 @@ const Main = () => {
         <AnimatePresence>
           {isModal && <Modal onClick={modalHandler} />}
         </AnimatePresence>
-      </section>
+      </motion.section>
     );
   } else {
     return (
-      <section className="flex">
+      <motion.section
+        className="flex"
+      >
         <div className="h-screen w-52 bg-black-primary text-white flex flex-col justify-between items-center text-center py-8 border-r border-primary">
           <h1 className="text-xl font-semibold">ToDoList App</h1>
           <ul className="text-xl gap-y-8 flex flex-col font-semibold">
@@ -157,11 +168,13 @@ const Main = () => {
               text="Add Task"
               className="w-fit"
             />
-            <img
-              className="w-24 rounded-full"
-              src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
-              alt="avatar"
-            />
+            <Link to="/profile">
+              <img
+                className="w-24 rounded-full"
+                src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
+                alt="avatar"
+              />
+            </Link>
           </div>
           <div className="w-full h-4/5 flex justify-around items-start">
             <div className="h-4/5 text-center">
@@ -189,7 +202,7 @@ const Main = () => {
         <AnimatePresence>
           {isModal && <Modal onClick={modalHandler} />}
         </AnimatePresence>
-      </section>
+      </motion.section>
     );
   }
 };
