@@ -105,8 +105,8 @@ const Main = () => {
           <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[36rem] overflow-y-scroll sm:ml-16">
             {TASKS.map((task) => {
               return (
-                <li>
-                  <Task key={task.id} id={task.id} name={task.name} />
+                <li key={task.id}>
+                  <Task id={task.id} name={task.name} />
                 </li>
               );
             })}
@@ -139,9 +139,7 @@ const Main = () => {
     );
   } else {
     return (
-      <motion.section
-        className="flex"
-      >
+      <motion.section className="flex">
         <div className="h-screen w-52 bg-black-primary text-white flex flex-col justify-between items-center text-center py-8 border-r border-primary">
           <h1 className="text-xl font-semibold">ToDoList App</h1>
           <ul className="text-xl gap-y-8 flex flex-col font-semibold">

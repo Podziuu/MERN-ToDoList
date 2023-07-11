@@ -41,7 +41,7 @@ const Footer = ({className}) => {
     );
   } else {
     return (
-      <footer className={`absolute bottom-0 w-screen overflow-hidden pointer-events-none resize-x ${className}`}>
+      <footer className={`absolute -bottom-6 w-screen overflow-hidden pointer-events-none resize-x ${className}`}>
         <svg
           id="visual"
           viewBox="0 0 3000 540"

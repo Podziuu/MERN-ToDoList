@@ -2,8 +2,24 @@ import React from "react";
 import { NavBar, Footer, Input, Button } from "../components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const submitHandler = (data) => {
+    console.log(data);
+    if (data.password !== data.cpassword) {
+      console.log(errors.cpassword);
+    }
+  };
+  console.log(errors);
+
   return (
     <motion.section>
       <NavBar />
@@ -27,30 +43,63 @@ const Signup = () => {
             <p className="text-[#8C8C8C] text-sm my-2 mb-4 ml-4">
               Enter your credentials to access your account
             </p>
-            <form className="flex flex-col gap-y-4 items-center">
+            <form
+              className="flex flex-col gap-y-2 items-center"
+              onSubmit={handleSubmit(submitHandler)}
+            >
               <Input
                 labelName="Name"
                 placeholder="Enter your name"
                 type="text"
                 name="name"
+                errors={errors}
+                {...register("name", {
+                  required: "Name is required!",
+                })}
               />
               <Input
                 labelName="Email"
                 placeholder="Enter your email"
                 type="email"
                 name="email"
+                errors={errors}
+                {...register("email", {
+                  required: "Email is required!",
+                  pattern: {
+                    value:
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: "Invalid email address",
+                  },
+                })}
               />
               <Input
                 labelName="Password"
                 placeholder="Enter your password"
                 type="password"
                 name="password"
+                errors={errors}
+                {...register("password", {
+                  required: "Password is required!",
+                  minLength: {
+                    value: 6,
+                    message: "Password should be at least 6 characters long!",
+                  },
+                })}
               />
               <Input
                 labelName="Confirm Password"
                 placeholder="Re-enter your password"
                 type="password"
                 name="cpassword"
+                errors={errors}
+                {...register("cpassword", {
+                  required: "Password is required!",
+                  validate: (val) => {
+                    if (watch("password") !== val) {
+                      return "Your password do no match";
+                    }
+                  },
+                })}
               />
 
               <Button text="Sign Up" filled full />
