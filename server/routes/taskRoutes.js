@@ -5,12 +5,13 @@ import {
   getTasksByDay,
   deleteTask,
 } from "../controllers/taskController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", getAllTasks);
-router.get("/:day", getTasksByDay);
-router.post("/", addTask);
-router.delete("/:id", deleteTask);
+router.get("/", protect, getAllTasks);
+router.get("/:day", protect, getTasksByDay);
+router.post("/", protect, addTask);
+router.delete("/:id", protect, deleteTask);
 
 export default router;
