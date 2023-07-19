@@ -5,7 +5,10 @@ const taskSchema = mongoose.Schema({
   checked: { type: Boolean, required: true, default: false },
   day: { type: String, required: true },
   category: { type: String, required: true },
+  type: { type: String, required: true },
   user: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
 });
 
-export const Task = mongoose.model("Task", taskSchema);
+const Task = mongoose.model("Task", taskSchema);
+
+export default Task;
