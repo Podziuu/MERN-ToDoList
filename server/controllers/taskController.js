@@ -7,14 +7,30 @@ import mongoose from "mongoose";
 // GET /
 // PRIVATE
 const getAllTasks = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "All tasks" });
+  const user = req.user;
+
+  try {
+    const tasks = await Task.find({ user });
+    res.status(200).json({ tasks });
+  } catch (err) {
+    throw new Error("Something went wrong, please try again later.");
+  }
 });
 
 // Get tasks by day
 // GET /:day
 // PRIVATE
 const getTasksByDay = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Tasks by day" });
+  const user = req.user;
+  const { day } = req.params;
+
+  try {
+    const tasks = await Task.find({ user });
+    const dayTasks = tasks.filter((task) => task.day === day);
+    res.status(200).json({ tasks: dayTasks });
+  } catch (err) {
+    throw new Error("Something went wrong, please try again later.");
+  }
 });
 
 // Add new task
