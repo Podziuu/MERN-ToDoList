@@ -9,10 +9,10 @@ import mongoose from "mongoose";
 const getAllTasks = asyncHandler(async (req, res) => {
   const user = req.user;
 
-  try {
-    const tasks = await Task.find({ user });
+  const tasks = await Task.find({ user });
+  if (tasks) {
     res.status(200).json({ tasks });
-  } catch (err) {
+  } else {
     throw new Error("Something went wrong, please try again later.");
   }
 });
@@ -24,11 +24,11 @@ const getTasksByDay = asyncHandler(async (req, res) => {
   const user = req.user;
   const { day } = req.params;
 
-  try {
-    const tasks = await Task.find({ user });
-    const dayTasks = tasks.filter((task) => task.day === day);
+  const tasks = await Task.find({ user });
+  const dayTasks = tasks.filter((task) => task.day === day);
+  if (dayTasks) {
     res.status(200).json({ tasks: dayTasks });
-  } catch (err) {
+  } else {
     throw new Error("Something went wrong, please try again later.");
   }
 });
@@ -37,44 +37,65 @@ const getTasksByDay = asyncHandler(async (req, res) => {
 // POST /
 // PRIVATE
 const addTask = asyncHandler(async (req, res) => {
-  const { name, category, type, day } = req.body;
+  const { name, category, type, day, checked } = req.body;
 
   const user = req.user;
 
-  try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    const task = await Task.create(
-      [
-        {
-          name,
-          day,
-          category,
-          type,
-          user: user._id,
-        },
-      ],
-      { session: sess }
-    );
-    await User.findByIdAndUpdate(
-      user._id,
-      { $push: { tasks: task } },
-      { new: true, session: sess }
-    );
-    await sess.commitTransaction();
-    sess.endSession();
+  const sess = await mongoose.startSession();
+  sess.startTransaction();
+  const task = await Task.create(
+    [
+      {
+        name,
+        checked,
+        day,
+        category,
+        type,
+        user: user._id,
+      },
+    ],
+    { session: sess }
+  );
+  await User.findByIdAndUpdate(
+    user._id,
+    { $push: { tasks: task } },
+    { new: true, session: sess }
+  );
+  await sess.commitTransaction();
+  sess.endSession();
+  res.status(200).json({ task });
+});
+
+// Check task
+// POST /:id
+// PRIVATE
+const checkTask = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  const task = await Task.findById(id);
+
+  if (task && task.user.equals(user._id)) {
+    task.checked = !task.checked;
+    task.save();
+
     res.status(200).json({ task });
-  } catch (err) {
-    res.status(500);
-    throw new Error("Creating task failed, please try again later");
+  } else {
+    res.status(401);
+    throw new Error("You're not the owner of the task");
   }
 });
 
 // Delete task
 // DELETE /:id
 // PRIVATE
-const deleteTask = asyncHandler(async (req, res) => {
+const deleteTasks = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  const completedTasks = await Task.find({ user, checked: true });
+
+  console.log(completedTasks);
   res.status(200).json({ message: "delete task" });
 });
 
-export { getAllTasks, getTasksByDay, addTask, deleteTask };
+export { getAllTasks, getTasksByDay, addTask, deleteTasks, checkTask };
