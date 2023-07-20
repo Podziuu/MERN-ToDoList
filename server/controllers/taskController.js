@@ -93,9 +93,28 @@ const deleteTasks = asyncHandler(async (req, res) => {
   const user = req.user;
 
   const completedTasks = await Task.find({ user, checked: true });
+  const Ids = completedTasks.map((t) => t._id);
 
-  console.log(completedTasks);
-  res.status(200).json({ message: "delete task" });
+  const sess = await mongoose.startSession();
+  sess.startTransaction();
+  await Task.deleteMany(
+    {
+      user: user._id,
+      checked: true,
+      _id: { $in: Ids },
+    },
+    { session: sess }
+  );
+  await User.updateMany(
+    {
+      _id: user._id,
+    },
+    { $pull: { tasks: { $in: Ids } } },
+    { session: sess }
+  );
+  await sess.commitTransaction();
+  sess.endSession();
+  res.status(200).json({ message: "Successfuly deleted tasks" });
 });
 
 export { getAllTasks, getTasksByDay, addTask, deleteTasks, checkTask };
