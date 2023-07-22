@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { changeDay } from "../store/ui-slice";
+import { changeDay } from "../store/slices/ui-slice";
 
 const WEEK_DAYS = [
   "Monday",

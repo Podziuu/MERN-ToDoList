@@ -3,5 +3,6 @@ import Main from "./Main";
 import Signup from "./Signup";
 import Welcome from "./Welcome";
 import Profile from "./Profile";
+import NotFound from "./NotFound";
 
-export { Login, Main, Signup, Welcome, Profile };
+export { Login, Main, Signup, Welcome, Profile, NotFound };

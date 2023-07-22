@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import { MenuButton, Task, Menu, Modal, Button } from "../components";
 import { useSelector, useDispatch } from "react-redux";
-import { changeDay } from "../store/ui-slice";
+import { changeDay } from "../store/slices/ui-slice";
 import { Link } from "react-router-dom";
 
 const WEEK_DAYS = [
