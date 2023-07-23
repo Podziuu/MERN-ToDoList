@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavBar, Footer, Input, Button } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../store/slices/authSlice";
+import { useRegisterMutation } from "../store/slices/userApiSlice";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const {
@@ -12,13 +16,34 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = (data) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [registerUser, { isLoading }] = useRegisterMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/app");
+    }
+  }, [navigate, userInfo]);
+
+  const submitHandler = async (data) => {
+    if (data.password !== data.cpassword) return;
     console.log(data);
-    if (data.password !== data.cpassword) {
-      console.log(errors.cpassword);
+    try {
+      const res = await registerUser({
+        name: data.name,
+        email: data.email,
+        password: data.email,
+      }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate("/app");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log(err);
     }
   };
-  console.log(errors);
 
   return (
     <motion.section>
@@ -102,7 +127,7 @@ const Signup = () => {
                 })}
               />
 
-              <Button text="Sign Up" filled full />
+              <Button text="Sign Up" filled full isLoading={isLoading} />
             </form>
             <p className="text-center mt-4 text-[#929292]">
               Have an account ?{" "}

@@ -127,7 +127,7 @@ const Profile = () => {
               <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8  pl-24 pb-4 max-w-xs max-h-96 overflow-y-scroll sm:ml-16">
                 {TASKS.map((task, i) => {
                   return (
-                    <li>
+                    <li key={i}>
                       <Task key={task.id} id={task.id} name={task.name} />
                     </li>
                   );

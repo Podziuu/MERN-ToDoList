@@ -1,7 +1,6 @@
 import React from "react";
 
 const Stat = ({ title, stat, glass }) => {
-  console.log(glass);
   return (
     <div
       className={` rounded-xl h-fit text-center shadow-xl ${
