@@ -4,7 +4,9 @@ import useWindowSize from "../hooks/useWindowSize";
 import { MenuButton, Task, Menu, Modal, Button } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/slices/ui-slice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../store/slices/authSlice";
+import { useLogoutMutation } from "../store/slices/userApiSlice";
 
 const WEEK_DAYS = [
   "Monday",
@@ -69,6 +71,9 @@ const Main = () => {
   const windowSize = useWindowSize();
   const day = useSelector((state) => state.ui.day);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutUser, { isLoading }] = useLogoutMutation();
 
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
@@ -80,6 +85,12 @@ const Main = () => {
 
   const changeDayHandler = (e) => {
     dispatch(changeDay({ day: e.target.innerText }));
+  };
+
+  const logoutHandler = async () => {
+    await logoutUser();
+    dispatch(logout());
+    navigate("/login");
   };
 
   if (windowSize.width < 900) {
@@ -155,7 +166,8 @@ const Main = () => {
               );
             })}
           </ul>
-          <div />
+          <Button text="Logout" filled onClick={logoutHandler} />
+          {/* <div /> */}
         </div>
         <div className="bg-gradient-login bg-cover h-screen w-full">
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16">
