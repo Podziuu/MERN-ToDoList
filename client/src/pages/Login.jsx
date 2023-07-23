@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavBar, Footer, Input, Button } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../store/slices/authSlice";
+import { useLoginMutation } from "../store/slices/userApiSlice";
+import { toast } from "react-toastify";
 
 const Singup = () => {
   const {
@@ -11,8 +15,30 @@ const Singup = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = (data) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/app");
+    }
+  }, [navigate, userInfo]);
+
+  const submitHandler = async (data) => {
     console.log(data);
+    try {
+      const res = await login({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate("/app");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   return (
@@ -72,7 +98,7 @@ const Singup = () => {
                   },
                 })}
               />
-              <Button text="Log In" filled full />
+              <Button text="Log In" filled full isLoading={isLoading} />
               <div className="flex justify-between w-full px-4 text-sm">
                 <div className="flex justify-center items-center gap-x-2">
                   <input

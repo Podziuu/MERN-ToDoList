@@ -1,6 +1,8 @@
 import { Route, Routes, useRoutes, useLocation } from "react-router-dom";
 import { Welcome, Signup, Login, Main, Profile, NotFound } from "./pages";
 import { AnimatePresence } from "framer-motion";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./utils/PrivateRoute";
 import React from "react";
 
@@ -10,6 +12,7 @@ function App() {
   return (
     <>
       <AnimatePresence>
+        <ToastContainer className="mt-24" />
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Welcome />} exact />
           <Route path="/signup" element={<Signup />} />
