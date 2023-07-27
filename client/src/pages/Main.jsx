@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
-import { MenuButton, Task, Menu, Modal, Button } from "../components";
+import {
+  MenuButton,
+  Task,
+  Menu,
+  Modal,
+  Button,
+  MobileTasks,
+  DesktopTasks,
+} from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/slices/ui-slice";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store/slices/authSlice";
 import { useLogoutMutation } from "../store/slices/userApiSlice";
+import {
+  useGetAllTasksQuery,
+  useGetDayTasksQuery,
+} from "../store/slices/taskApiSlice";
 
 const WEEK_DAYS = [
   "Monday",
@@ -73,7 +85,9 @@ const Main = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logoutUser, { isLoading }] = useLogoutMutation();
+  const { data, isLoading } = useGetDayTasksQuery(day);
+
+  const [logoutUser] = useLogoutMutation();
 
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
@@ -92,6 +106,12 @@ const Main = () => {
     dispatch(logout());
     navigate("/login");
   };
+
+  // if (isLoading) {
+  //   return <p>Loading</p>;
+  // } else {
+  //   console.log(data);
+  // }
 
   if (windowSize.width < 900) {
     return (
@@ -113,15 +133,7 @@ const Main = () => {
           <h2 className="text-4xl text-white">{day}</h2>
         </div>
         <div className="h-2/3 bg-primary w-full relative ">
-          <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[36rem] overflow-y-scroll sm:ml-16">
-            {TASKS.map((task) => {
-              return (
-                <li key={task.id}>
-                  <Task id={task.id} name={task.name} />
-                </li>
-              );
-            })}
-          </ul>
+          {!isLoading && <MobileTasks data={data} />}
           <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10" />
           <button
             className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full"
@@ -167,7 +179,6 @@ const Main = () => {
             })}
           </ul>
           <Button text="Logout" filled onClick={logoutHandler} />
-          {/* <div /> */}
         </div>
         <div className="bg-gradient-login bg-cover h-screen w-full">
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16">
@@ -189,22 +200,14 @@ const Main = () => {
           <div className="w-full h-4/5 flex justify-around items-start">
             <div className="h-4/5 text-center">
               <h4 className="text-3xl my-6 font-bold">Optional Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-center">
-                <ul className="flex flex-col justify-center relative items-center max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
-                  {TASKS.map((task) => {
-                    return <Task key={task.id} id={task.id} name={task.name} />;
-                  })}
-                </ul>
+              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-start">
+                {!isLoading && <DesktopTasks data={data} type="optional" />}
               </div>
             </div>
             <div className="h-4/5 text-center">
               <h4 className="text-3xl my-6 font-bold">Must to do Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-center">
-                <ul className="flex flex-col justify-center relative items-center max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
-                  {TASKS.map((task) => {
-                    return <Task key={task.id} id={task.id} name={task.name} />;
-                  })}
-                </ul>
+              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-start">
+                {!isLoading && <DesktopTasks data={data} type="must" />}
               </div>
             </div>
           </div>

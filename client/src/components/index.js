@@ -10,6 +10,9 @@ import NavBar from "./NavBar";
 import RadioInput from "./RadioInput";
 import Task from "./Task";
 import Stat from "./Stat";
+import Spinner from "./Spinner";
+import MobileTasks from "./MobileTasks";
+import DesktopTasks from "./DesktopTasks";
 
 export {
   Backdrop,
@@ -24,4 +27,7 @@ export {
   RadioInput,
   Task,
   Stat,
+  Spinner,
+  MobileTasks,
+  DesktopTasks,
 };

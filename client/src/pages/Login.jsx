@@ -27,8 +27,8 @@ const Singup = () => {
     }
   }, [navigate, userInfo]);
 
-  const submitHandler = async (data) => {
-    console.log(data);
+  const submitHandler = async (data, e) => {
+    e.preventDefault();
     try {
       const res = await login({
         email: data.email,
