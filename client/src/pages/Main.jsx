@@ -107,12 +107,6 @@ const Main = () => {
     navigate("/login");
   };
 
-  // if (isLoading) {
-  //   return <p>Loading</p>;
-  // } else {
-  //   console.log(data);
-  // }
-
   if (windowSize.width < 900) {
     return (
       <motion.section className="flex bg-black-primary h-screen flex-col items-center overflow-hidden justify-between">

@@ -7,8 +7,8 @@ const MobileTasks = ({ data }) => {
       {(data &&
         data.tasks.map((task) => {
           return (
-            <li key={task.id}>
-              <Task id={task.id} name={task.name} checked={task.checked} />
+            <li key={task._id}>
+              <Task id={task._id} name={task.name} checked={task.checked} />
             </li>
           );
         })) || <p>No tasks yet. Maybe add one ?</p>}

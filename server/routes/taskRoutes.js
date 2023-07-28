@@ -13,7 +13,7 @@ const router = express.Router();
 router.get("/", protect, getAllTasks);
 router.get("/:day", protect, getTasksByDay);
 router.post("/", protect, addTask);
-router.post("/:id", protect, checkTask)
+router.patch("/:id", protect, checkTask)
 router.delete("/", protect, deleteTasks);
 
 export default router;

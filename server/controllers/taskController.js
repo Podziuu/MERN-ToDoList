@@ -67,7 +67,7 @@ const addTask = asyncHandler(async (req, res) => {
 });
 
 // Check task
-// POST /:id
+// PATCH /:id
 // PRIVATE
 const checkTask = asyncHandler(async (req, res) => {
   const { id } = req.params;

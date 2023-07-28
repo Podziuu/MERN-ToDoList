@@ -14,7 +14,17 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
         url: `${TASKS_URL}/${day}`,
       }),
     }),
+    checkTask: builder.mutation({
+      query: (id) => ({
+        url: `${TASKS_URL}/${id}`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllTasksQuery, useGetDayTasksQuery } = usersApiSlice;
+export const {
+  useGetAllTasksQuery,
+  useGetDayTasksQuery,
+  useCheckTaskMutation,
+} = usersApiSlice;
