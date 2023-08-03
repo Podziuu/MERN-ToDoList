@@ -3,7 +3,7 @@ import { Task } from "../components";
 
 const DesktopTasks = ({ data, type }) => {
   return (
-    <ul className="flex flex-col justify-center relative items-center max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
+    <ul className="flex flex-col justify-center relative items-start max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
       {(data &&
         data.tasks
           .filter((task) => task.type === type)

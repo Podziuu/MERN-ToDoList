@@ -3,12 +3,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import {
   MenuButton,
-  Task,
   Menu,
   Modal,
   Button,
   MobileTasks,
   DesktopTasks,
+  MobileMenu,
 } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/slices/ui-slice";
@@ -16,8 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store/slices/authSlice";
 import { useLogoutMutation } from "../store/slices/userApiSlice";
 import {
-  useGetAllTasksQuery,
   useGetDayTasksQuery,
+  useDeleteTasksMutation,
 } from "../store/slices/taskApiSlice";
 
 const WEEK_DAYS = [
@@ -30,67 +30,26 @@ const WEEK_DAYS = [
   "Sunday",
 ];
 
-const TASKS = [
-  {
-    id: 1,
-    name: "School",
-  },
-  {
-    id: 2,
-    name: "Workout",
-  },
-  {
-    id: 3,
-    name: "Lunch",
-  },
-  {
-    id: 4,
-    name: "Dishes",
-  },
-  {
-    id: 5,
-    name: "Mathematic",
-  },
-  {
-    id: 6,
-    name: "Physics",
-  },
-  {
-    id: 7,
-    name: "gdsagsdagsdaga sdgsgdsags dagdsagdsagds",
-  },
-  {
-    id: 8,
-    name: "JAcka",
-  },
-  {
-    id: 9,
-    name: "dog",
-  },
-  {
-    id: 10,
-    name: "cat",
-  },
-  {
-    id: 11,
-    name: "clean",
-  },
-];
-
 const Main = () => {
   const [isMenu, setIsMenu] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isMenu2, setIsMenu2] = useState(false);
   const windowSize = useWindowSize();
   const day = useSelector((state) => state.ui.day);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data, isLoading } = useGetDayTasksQuery(day);
+  const [deleteTasks, { isLoading: loadingDelete }] = useDeleteTasksMutation();
 
   const [logoutUser] = useLogoutMutation();
 
   const clickHandler = (e) => {
     setIsMenu((prev) => !prev);
+  };
+
+  const menuHandler = () => {
+    setIsMenu2((prev) => !prev);
   };
 
   const modalHandler = (e) => {
@@ -105,6 +64,14 @@ const Main = () => {
     await logoutUser();
     dispatch(logout());
     navigate("/login");
+  };
+
+  const deleteHandler = async () => {
+    try {
+      await deleteTasks({ day });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   if (windowSize.width < 900) {
@@ -130,8 +97,8 @@ const Main = () => {
           {!isLoading && <MobileTasks data={data} />}
           <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10" />
           <button
-            className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full"
-            onClick={modalHandler}
+            className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full z-20"
+            onClick={menuHandler}
           >
             <svg
               width="24px"
@@ -152,6 +119,7 @@ const Main = () => {
         <AnimatePresence>
           {isModal && <Modal onClick={modalHandler} />}
         </AnimatePresence>
+        {isMenu2 && <MobileMenu modalHandler={modalHandler} menuHandler={menuHandler} />}
       </motion.section>
     );
   } else {
@@ -175,14 +143,23 @@ const Main = () => {
           <Button text="Logout" filled onClick={logoutHandler} />
         </div>
         <div className="bg-gradient-login bg-cover h-screen w-full">
-          <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16">
+          <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16 md:p-8">
             <h3 className="text-4xl text-white">{day}</h3>
-            <Button
-              onClick={modalHandler}
-              filled
-              text="Add Task"
-              className="w-fit"
-            />
+            <div className="flex gap-x-2 md:gap-x-4 lg:gap-x-8 xl:gap-x-16">
+              <Button
+                onClick={modalHandler}
+                filled
+                text="Add Task"
+                className="w-fit"
+              />
+              <Button
+                filled
+                text="Delete Completed Tasks"
+                className="w-fit"
+                onClick={deleteHandler}
+                isLoading={loadingDelete}
+              />
+            </div>
             <Link to="/profile">
               <img
                 className="w-24 rounded-full"
@@ -193,15 +170,15 @@ const Main = () => {
           </div>
           <div className="w-full h-4/5 flex justify-around items-start">
             <div className="h-4/5 text-center">
-              <h4 className="text-3xl my-6 font-bold">Optional Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-start">
-                {!isLoading && <DesktopTasks data={data} type="optional" />}
+              <h4 className="text-3xl my-6 font-bold">Must to do Tasks</h4>
+              <div className="h-full w-[350px] lg:w-[400px] xl:w-[565px] bg-white/40 border border-black shadow-xl relative flex items-start">
+                {!isLoading && <DesktopTasks data={data} type="Must" />}
               </div>
             </div>
             <div className="h-4/5 text-center">
-              <h4 className="text-3xl my-6 font-bold">Must to do Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-start">
-                {!isLoading && <DesktopTasks data={data} type="must" />}
+              <h4 className="text-3xl my-6 font-bold">Optional Tasks</h4>
+              <div className="h-full w-[350px] lg:w-[400px] xl:w-[565px] bg-white/40 border border-black shadow-xl relative flex items-start">
+                {!isLoading && <DesktopTasks data={data} type="Optional" />}
               </div>
             </div>
           </div>

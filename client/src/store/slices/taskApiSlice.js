@@ -8,17 +8,35 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${TASKS_URL}/`,
       }),
+      providesTags: ["Task"],
     }),
     getDayTasks: builder.query({
       query: (day) => ({
         url: `${TASKS_URL}/${day}`,
       }),
+      providesTags: ["Task"],
     }),
     checkTask: builder.mutation({
       query: (id) => ({
         url: `${TASKS_URL}/${id}`,
         method: "PATCH",
       }),
+    }),
+    addTask: builder.mutation({
+      query: (data) => ({
+        url: `${TASKS_URL}/`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Task"],
+    }),
+    deleteTasks: builder.mutation({
+      query: (day) => ({
+        url: `${TASKS_URL}/`,
+        method: "DELETE",
+        body: day,
+      }),
+      invalidatesTags: ["Task"],
     }),
   }),
 });
@@ -27,4 +45,6 @@ export const {
   useGetAllTasksQuery,
   useGetDayTasksQuery,
   useCheckTaskMutation,
+  useAddTaskMutation,
+  useDeleteTasksMutation,
 } = usersApiSlice;

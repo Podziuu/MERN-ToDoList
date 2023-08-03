@@ -91,8 +91,9 @@ const checkTask = asyncHandler(async (req, res) => {
 // PRIVATE
 const deleteTasks = asyncHandler(async (req, res) => {
   const user = req.user;
+  const day = req.body.day;
 
-  const completedTasks = await Task.find({ user, checked: true });
+  const completedTasks = await Task.find({ user, checked: true, day });
   const Ids = completedTasks.map((t) => t._id);
 
   const sess = await mongoose.startSession();
@@ -101,6 +102,7 @@ const deleteTasks = asyncHandler(async (req, res) => {
     {
       user: user._id,
       checked: true,
+      day,
       _id: { $in: Ids },
     },
     { session: sess }

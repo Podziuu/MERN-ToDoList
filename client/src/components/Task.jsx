@@ -15,7 +15,50 @@ const Task = ({ id, name, className, checked }) => {
   };
 
   return (
-    <div className={`w-48 group flex items-center ${className}`}>
+    <div className={` group flex items-center ${className}`}>
+      <input
+        className="w-6 h-6 rounded-full absolute mr-4 opacity-0 z-20 peer"
+        type="checkbox"
+        id={id}
+        //ref={checkBoxRef}
+        onChange={clickHandler}
+        checked={isChecked}
+      />
+      <div className="w-8 h-8 bg-transparent border-2 border-black rounded-full hidden peer-checked:flex peer-checked:border-[#984EAF] justify-center items-center group-hover:scale-[1.1] transition">
+        <svg
+          width="36px"
+          height="36px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="Interface / Check">
+            <path
+              id="Vector"
+              d="M6 12L10.2426 16.2426L18.727 7.75732"
+              stroke="#984EAF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
+        </svg>
+      </div>
+      <div className="w-8 h-8 bg-transparent border-2 border-black rounded-full  peer-checked:hidden group-hover:scale-[1.1] transition" />
+      <label
+        className="ml-12 text-lg peer-checked:text-[#505050] peer-checked:line-through group-hover:scale-[1.05] transition"
+        htmlFor={id}
+      >
+        {name}
+      </label>
+    </div>
+  );
+};
+
+export default Task;
+
+{
+  /* <div className={`w-48 group flex items-center ${className}`}>
       <input
         className="w-6 h-6 rounded-full absolute mr-4 opacity-0 z-20 peer"
         type="checkbox"
@@ -31,8 +74,5 @@ const Task = ({ id, name, className, checked }) => {
       >
         {name}
       </label>
-    </div>
-  );
-};
-
-export default Task;
+    </div> */
+}

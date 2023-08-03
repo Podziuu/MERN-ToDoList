@@ -3,7 +3,7 @@ import { Task } from "../components";
 
 const MobileTasks = ({ data }) => {
   return (
-    <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-xs max-h-[36rem] overflow-y-scroll sm:ml-16">
+    <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8 pb-4 pl-16 max-w-full max-h-[36rem] overflow-y-scroll sm:ml-16">
       {(data &&
         data.tasks.map((task) => {
           return (

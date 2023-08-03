@@ -3,6 +3,9 @@ import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { Backdrop, Input, Dropdown, Button, RadioInput } from "../components";
 import { useForm } from "react-hook-form";
+import { useAddTaskMutation } from "../store/slices/taskApiSlice";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ModalOverlay = ({ children }) => {
   return (
@@ -26,13 +29,32 @@ const Modal = ({ onClick }) => {
   const [category, setCategory] = useState("Category");
   const [categoryError, setCategoryError] = useState(null);
 
-  const submitHandler = (data) => {
+  const day = useSelector((state) => state.ui.day);
+
+  const [addTask, { isLoading }] = useAddTaskMutation();
+
+  const submitHandler = async (data, e) => {
+    e.preventDefault();
     if (category === "Category")
       return setCategoryError("Please select category!");
     console.log(data);
     const cat = category.split("\n")[0];
     console.log(cat);
     // send to database
+    try {
+      const res = await addTask({
+        name: data.taskName,
+        category: cat,
+        day,
+        type: data.type,
+      });
+      if (!isLoading) {
+        onClick();
+      }
+      toast.success("You successfully add new task!");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
   return (
     <>
@@ -85,6 +107,7 @@ const Modal = ({ onClick }) => {
                 text="Add Task"
                 filled
                 className="self-center w-fit md:w-full mt-2"
+                isLoading={isLoading}
               />
             </form>
           </div>

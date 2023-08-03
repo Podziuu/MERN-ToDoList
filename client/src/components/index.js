@@ -13,6 +13,7 @@ import Stat from "./Stat";
 import Spinner from "./Spinner";
 import MobileTasks from "./MobileTasks";
 import DesktopTasks from "./DesktopTasks";
+import MobileMenu from "./MobileMenu";
 
 export {
   Backdrop,
@@ -30,4 +31,5 @@ export {
   Spinner,
   MobileTasks,
   DesktopTasks,
+  MobileMenu,
 };
