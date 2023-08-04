@@ -30,7 +30,6 @@ const Signup = () => {
 
   const submitHandler = async (data) => {
     if (data.password !== data.cpassword) return;
-    console.log(data);
     try {
       const res = await registerUser({
         name: data.name,
@@ -40,8 +39,7 @@ const Signup = () => {
       dispatch(setCredentials({ ...res }));
       navigate("/app");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
-      console.log(err);
+      toast.error(err?.data?.message || err.error || "Something went wrong, Please try again later.");
     }
   };
 

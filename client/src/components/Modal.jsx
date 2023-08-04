@@ -37,9 +37,7 @@ const Modal = ({ onClick }) => {
     e.preventDefault();
     if (category === "Category")
       return setCategoryError("Please select category!");
-    console.log(data);
     const cat = category.split("\n")[0];
-    console.log(cat);
     // send to database
     try {
       const res = await addTask({
@@ -88,19 +86,19 @@ const Modal = ({ onClick }) => {
                 setCategoryError={setCategoryError}
               />
               <RadioInput
-                text="Optional Task"
-                name="task"
-                id="optional"
-                checked={true}
-                value="Optional"
-                {...register("type")}
-              />
-              <RadioInput
                 text="Must to do Task"
                 name="task"
                 id="must"
-                checked={false}
+                checked={true}
                 value="Must"
+                {...register("type")}
+              />
+              <RadioInput
+                text="Optional Task"
+                name="task"
+                id="optional"
+                checked={false}
+                value="Optional"
                 {...register("type")}
               />
               <Button

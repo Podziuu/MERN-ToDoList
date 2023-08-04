@@ -96,7 +96,8 @@ const Main = () => {
         <div className="h-2/3 bg-primary w-full relative ">
           {!isLoading && <MobileTasks data={data} />}
           <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10" />
-          <button
+          <motion.button
+            whileTap={{ scale: 1.3 }}
             className="absolute bottom-6 right-6 bg-secondary p-4 rounded-full z-20"
             onClick={menuHandler}
           >
@@ -114,12 +115,18 @@ const Main = () => {
                 d="M9 17a1 1 0 102 0v-6h6a1 1 0 100-2h-6V3a1 1 0 10-2 0v6H3a1 1 0 000 2h6v6z"
               />
             </svg>
-          </button>
+          </motion.button>
         </div>
         <AnimatePresence>
           {isModal && <Modal onClick={modalHandler} />}
+          {isMenu2 && (
+            <MobileMenu
+              deleteHandler={deleteHandler}
+              modalHandler={modalHandler}
+              menuHandler={menuHandler}
+            />
+          )}
         </AnimatePresence>
-        {isMenu2 && <MobileMenu modalHandler={modalHandler} menuHandler={menuHandler} />}
       </motion.section>
     );
   } else {

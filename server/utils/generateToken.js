@@ -5,8 +5,6 @@ const generateToken = (res, userId) => {
     expiresIn: "7d",
   });
 
-  console.log(token);
-
   res.cookie("test", "test");
 
   res.cookie("jwt", token, {
