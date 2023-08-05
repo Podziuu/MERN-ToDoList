@@ -7,12 +7,15 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     tasks: [{ type: mongoose.Types.ObjectId, required: true, ref: "Task" }],
+    dayStreak: { type: Number, required: true, default: 1 },
+    lastLoggedIn: { type: Date, required: true, default: new Date() },
   },
   { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
+    console.log("hdashdasloh")
     next();
   }
 

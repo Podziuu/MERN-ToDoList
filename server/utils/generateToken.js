@@ -5,8 +5,6 @@ const generateToken = (res, userId) => {
     expiresIn: "7d",
   });
 
-  res.cookie("test", "test");
-
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",

@@ -8,8 +8,6 @@ const Task = ({ id, name, className, checked }) => {
   const [check] = useCheckTaskMutation();
 
   const clickHandler = async () => {
-    // console.log(checkBoxRef.current.checked);
-    console.log(id);
     setIsChecked((prev) => !prev);
     await check(id);
   };

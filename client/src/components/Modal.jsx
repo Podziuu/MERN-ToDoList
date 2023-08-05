@@ -49,9 +49,13 @@ const Modal = ({ onClick }) => {
       if (!isLoading) {
         onClick();
       }
+      if (res?.error) {
+        throw new Error(res.error.data.message);
+      }
       toast.success("You successfully add new task!");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      console.log(err);
+      toast.error(err?.data?.message || err.error || err.message);
     }
   };
   return (

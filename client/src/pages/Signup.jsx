@@ -34,7 +34,7 @@ const Signup = () => {
       const res = await registerUser({
         name: data.name,
         email: data.email,
-        password: data.email,
+        password: data.password,
       }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate("/app");

@@ -41,6 +41,29 @@ const addTask = asyncHandler(async (req, res) => {
 
   const user = req.user;
 
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  const targetDay = user.lastLoggedIn.getDate();
+  const targetMonth = user.lastLoggedIn.getMonth();
+  const targetYear = user.lastLoggedIn.getFullYear();
+  let dayStreak = user.dayStreak;
+
+  if (
+    currentYear === targetYear &&
+    currentMonth === targetMonth &&
+    currentDay - 1 === targetDay
+  ) {
+    dayStreak++;
+  } else if (
+    currentYear === targetYear &&
+    currentMonth === targetMonth &&
+    currentDay - 1 > targetDay
+  ) {
+    dayStreak = 1;
+  }
+
   const sess = await mongoose.startSession();
   sess.startTransaction();
   const task = await Task.create(
@@ -58,7 +81,7 @@ const addTask = asyncHandler(async (req, res) => {
   );
   await User.findByIdAndUpdate(
     user._id,
-    { $push: { tasks: task } },
+    { $push: { tasks: task }, $set: { dayStreak, lastLoggedIn: currentDate } },
     { new: true, session: sess }
   );
   await sess.commitTransaction();
