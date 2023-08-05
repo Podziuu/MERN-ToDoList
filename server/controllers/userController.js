@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import Task from "../models/taskModel.js";
 import generateToken from "../utils/generateToken.js";
 
 // login user AND set token
@@ -65,4 +66,53 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "User logged out" });
 });
-export { authUser, registerUser, logoutUser };
+
+// Get user statistics
+// GET /api/users/stats
+// PRIVATE
+const getStats = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  const tasks = await Task.find({ user });
+  if (!tasks) {
+    throw new Error("Something went wrong, please try again later.");
+  }
+
+  const mostFrequntCategory = mostFrequentProperty(tasks, "category");
+  const mostFrequentDay = mostFrequentProperty(tasks, "day");
+  const completedTasks = tasks.filter((task) => task.checked);
+  const completionPercentage = (
+    (completedTasks.length / tasks.length) *
+    100
+  ).toFixed(2);
+
+  res.status(200).json({
+    dayStreak: user.dayStreak,
+    mostFrequntCategory,
+    mostFrequentDay,
+    onGoingTasks: user.tasks.length,
+    completedTasks: user.completedTasks,
+    completionPercentage,
+  });
+});
+export { authUser, registerUser, logoutUser, getStats };
+
+const mostFrequentProperty = (tasks, key) => {
+  const propertyCount = {};
+
+  tasks.forEach((task) => {
+    const property = key === "category" ? task.category : task.day;
+    propertyCount[property] = (propertyCount[property] || 0) + 1;
+  });
+
+  let mostFrequentProperty = null;
+  let maxCount = 0;
+
+  for (const property in propertyCount) {
+    if (propertyCount[property] > maxCount) {
+      maxCount = propertyCount[property];
+      mostFrequentProperty = property;
+    }
+  }
+  return mostFrequentProperty;
+};

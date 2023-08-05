@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     tasks: [{ type: mongoose.Types.ObjectId, required: true, ref: "Task" }],
+    completedTasks: { type: Number, required: true, default: 0 },
     dayStreak: { type: Number, required: true, default: 1 },
     lastLoggedIn: { type: Date, required: true, default: new Date() },
   },
@@ -15,7 +16,7 @@ const userSchema = mongoose.Schema(
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    console.log("hdashdasloh")
+    console.log("hdashdasloh");
     next();
   }
 

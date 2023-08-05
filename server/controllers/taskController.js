@@ -121,7 +121,7 @@ const deleteTasks = asyncHandler(async (req, res) => {
 
   const sess = await mongoose.startSession();
   sess.startTransaction();
-  await Task.deleteMany(
+  const count = await Task.deleteMany(
     {
       user: user._id,
       checked: true,
@@ -130,11 +130,15 @@ const deleteTasks = asyncHandler(async (req, res) => {
     },
     { session: sess }
   );
+  console.log(count);
   await User.updateMany(
     {
       _id: user._id,
     },
-    { $pull: { tasks: { $in: Ids } } },
+    {
+      $pull: { tasks: { $in: Ids } },
+      $inc: { completedTasks: count.deletedCount },
+    },
     { session: sess }
   );
   await sess.commitTransaction();
