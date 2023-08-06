@@ -78,7 +78,7 @@ const getStats = asyncHandler(async (req, res) => {
     throw new Error("Something went wrong, please try again later.");
   }
 
-  const mostFrequntCategory = mostFrequentProperty(tasks, "category");
+  const mostFrequentCategory = mostFrequentProperty(tasks, "category");
   const mostFrequentDay = mostFrequentProperty(tasks, "day");
   const completedTasks = tasks.filter((task) => task.checked);
   const completionPercentage = (
@@ -88,7 +88,7 @@ const getStats = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     dayStreak: user.dayStreak,
-    mostFrequntCategory,
+    mostFrequentCategory,
     mostFrequentDay,
     onGoingTasks: user.tasks.length,
     completedTasks: user.completedTasks,

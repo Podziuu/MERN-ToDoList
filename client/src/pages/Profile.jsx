@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
-import { MenuButton, Task, Menu, Modal, Button, Stat } from "../components";
+import {
+  MenuButton,
+  Task,
+  Menu,
+  Modal,
+  Button,
+  Stat,
+  Spinner,
+} from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/slices/ui-slice";
 import { Link } from "react-router-dom";
+import { useGetStatsQuery } from "../store/slices/userApiSlice";
 
 const WEEK_DAYS = [
   "Monday",
@@ -67,6 +76,14 @@ const Profile = () => {
   const [isStats, setIsStats] = useState(false);
   const windowSize = useWindowSize();
 
+  const { name } = useSelector((state) => state.auth.userInfo);
+
+  console.log(name);
+
+  const { data, isLoading } = useGetStatsQuery();
+
+  console.log(data);
+
   const clickHandler = (e) => {
     if (e.target.innerText === "Stats") {
       setIsStats(true);
@@ -98,7 +115,7 @@ const Profile = () => {
             src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
             alt="avatar"
           />
-          <h5 className="relative z-20 mt-8 text-xl font-semibold">Maria</h5>
+          <h5 className="relative z-20 mt-8 text-xl font-semibold">{name}</h5>
           <div className="absolute h-40 w-full bg-primary rounded-t-full scale-[1.5] -top-2 z-10"></div>
           <div className="text-black mt-16 z-20 flex justify-between w-full px-12 text-xl">
             <div
@@ -134,16 +151,32 @@ const Profile = () => {
                 })}
               </ul>
             )}
-            {isStats && (
+            {isStats && data && (
               <div className="grid h-full w-full grid-cols-2 gap-8 sm:gap-x-36">
-                <Stat stat="263 days 🔥" title="Day Streak" />
-                <Stat stat="School" title="Fav Category" />
-                <Stat stat="328" title="Completed Tasks" />
-                <Stat stat="41" title="On-Going Tasks" />
-                <Stat stat="Monday" title="Most Active Day" />
-                <Stat stat="85%" title="Completion tasks" />
+                <Stat stat={`${data.dayStreak} days 🔥`} title="Day Streak" />
+                <Stat
+                  stat={data.mostFrequentCategory || "Add Tasks"}
+                  title="Fav Category"
+                />
+                <Stat
+                  stat={data.completedTasks || "Complete Tasks"}
+                  title="Completed Tasks"
+                />
+                <Stat
+                  stat={data.onGoingTasks || "Add Tasks"}
+                  title="On-Going Tasks"
+                />
+                <Stat
+                  stat={data.mostFrequentDay || "Add Tasks"}
+                  title="Most Active Day"
+                />
+                <Stat
+                  stat={`${data.completionPercentage || "Add Tasks"} %`}
+                  title="Completion tasks"
+                />
               </div>
             )}
+            {isStats && !data && <Spinner />}
           </div>
         </div>
       </motion.section>
@@ -176,18 +209,45 @@ const Profile = () => {
                 src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
                 alt="avatar"
               />
-              <span className="text-2xl font-bold">Maria</span>
+              <span className="text-2xl font-bold">{name}</span>
             </div>
           </div>
           <div className="w-full h-4/5 flex items-center justify-center">
-            <div className="grid h-full w-full grid-cols-3 gap-16 gap-y-36 mx-6 xl:mx-36 place-content-center">
-              <Stat stat="263 days 🔥" title="Day Streak" glass />
-              <Stat stat="School" title="Fav Category" glass />
-              <Stat stat="328" title="Completed Tasks" glass />
-              <Stat stat="41" title="On-Going Tasks" glass />
-              <Stat stat="Monday" title="Most Active Day" glass />
-              <Stat stat="85%" title="Completion tasks" glass />
-            </div>
+            {data && (
+              <div className="grid h-full w-full grid-cols-3 gap-16 gap-y-36 mx-6 xl:mx-36 place-content-center">
+                <Stat
+                  stat={`${data.dayStreak} days 🔥`}
+                  title="Day Streak"
+                  glass
+                />
+                <Stat
+                  stat={data.mostFrequentCategory || "Add Tasks"}
+                  title="Fav Category"
+                  glass
+                />
+                <Stat
+                  stat={data.completedTasks || "Complete Tasks"}
+                  title="Completed Tasks"
+                  glass
+                />
+                <Stat
+                  stat={data.onGoingTasks || "Add Tasks"}
+                  title="On-Going Tasks"
+                  glass
+                />
+                <Stat
+                  stat={data.mostFrequentDay || "Add Tasks"}
+                  title="Most Active Day"
+                  glass
+                />
+                <Stat
+                  stat={`${data.completionPercentage || "Add Tasks"} %`}
+                  title="Completion tasks"
+                  glass
+                />
+              </div>
+            )}
+            {!data && <Spinner />}
             {/* <div className="h-4/5 text-center">
               <h4 className="text-3xl my-6 font-bold">Optional Tasks</h4>
               <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-center">
