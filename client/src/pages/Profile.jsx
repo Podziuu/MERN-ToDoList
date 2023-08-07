@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { changeDay } from "../store/slices/ui-slice";
 import { Link } from "react-router-dom";
 import { useGetStatsQuery } from "../store/slices/userApiSlice";
+import { useGetAllTasksQuery } from "../store/slices/taskApiSlice";
 
 const WEEK_DAYS = [
   "Monday",
@@ -80,7 +81,9 @@ const Profile = () => {
 
   console.log(name);
 
-  const { data, isLoading } = useGetStatsQuery();
+  const { data } = useGetStatsQuery();
+  const { data: tasks } = useGetAllTasksQuery();
+  console.log(tasks);
 
   console.log(data);
 
@@ -142,13 +145,14 @@ const Profile = () => {
           >
             {!isStats && (
               <ul className="z-20 relative text-black flex flex-col justify-start items-start gap-y-8 h-full pt-8  pl-24 pb-4 max-w-xs max-h-96 overflow-y-scroll sm:ml-16">
-                {TASKS.map((task, i) => {
-                  return (
-                    <li key={i}>
-                      <Task key={task.id} id={task.id} name={task.name} />
-                    </li>
-                  );
-                })}
+                {tasks &&
+                  tasks.tasks.map((task, i) => {
+                    return (
+                      <li key={i}>
+                        <Task key={task.id} id={task.id} name={task.name} checked={task.checked} />
+                      </li>
+                    );
+                  })}
               </ul>
             )}
             {isStats && data && (
