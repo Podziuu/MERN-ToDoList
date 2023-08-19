@@ -2,6 +2,9 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import Task from "../models/taskModel.js";
 import generateToken from "../utils/generateToken.js";
+import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import bcrypt from "bcryptjs";
 
 // login user AND set token
 // POST /api/users/auth
@@ -95,7 +98,99 @@ const getStats = asyncHandler(async (req, res) => {
     completionPercentage,
   });
 });
-export { authUser, registerUser, logoutUser, getStats };
+
+// Check if user is authenticated
+// GET /api/users/check
+// PUBLIC
+const checkAuth = asyncHandler(async (req, res) => {
+  const jwtCookie = req.cookies.jwt;
+
+  if (jwtCookie) {
+    const decoded = jwt.verify(jwtCookie, process.env.JWT_SECRET);
+    if (decoded.exp <= Date.now() / 1000) {
+      return res
+        .status(401)
+        .json({ message: "Token has expired", isAuthenticated: false });
+    }
+    res.status(200).json({ isAuthenticated: true });
+  } else {
+    res.status(401).json({ isAuthenticated: false });
+  }
+});
+
+// Send mail to user with reset password link
+// POST /api/users/forgot
+// PUBLIC
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const secret = process.env.JWT_SECRET + user.password;
+  const token = jwt.sign({ email: user.email, _id: user._id }, secret, {
+    expiresIn: "15m",
+  });
+  const link = `http://localhost:5173/reset?token=${token}&id=${user._id}`;
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "barpodemski@gmail.com",
+      pass: process.env.MAIL_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: '"Bartosz" <barpodemski@gmail.com>',
+    to: user.email,
+    subject: "Password Reset",
+    html: `
+      <p>${link}</p>
+      `,
+  });
+
+  console.log(info);
+  res.json("Good");
+});
+
+// Reset user password
+// PUT /api/users/reset
+// Semi-PRIVATE
+const resetPassword = asyncHandler(async (req, res) => {
+  const { password, userId, token } = req.body;
+
+  const user = await User.findOne({ _id: userId });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const secret = process.env.JWT_SECRET + user.password;
+
+  const payload = jwt.verify(token, secret);
+
+  user.password = password;
+  user.save();
+  res.status(201).json({ message: "Password reseted" });
+});
+
+export {
+  authUser,
+  registerUser,
+  logoutUser,
+  getStats,
+  forgotPassword,
+  checkAuth,
+  resetPassword,
+};
 
 const mostFrequentProperty = (tasks, key) => {
   const propertyCount = {};

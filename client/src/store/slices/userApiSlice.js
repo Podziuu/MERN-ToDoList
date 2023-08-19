@@ -28,8 +28,34 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/stats`,
       }),
     }),
+    checkAuth: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/check`,
+      }),
+    }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: `${USERS_URL}/forgot`,
+        method: "POST",
+        body: email,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/reset`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation, useGetStatsQuery } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useLogoutMutation,
+  useGetStatsQuery,
+  useCheckAuthQuery,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = usersApiSlice;

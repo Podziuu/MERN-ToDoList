@@ -5,7 +5,10 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../store/slices/authSlice";
-import { useLoginMutation } from "../store/slices/userApiSlice";
+import {
+  useLoginMutation,
+  useForgotPasswordMutation,
+} from "../store/slices/userApiSlice";
 import { toast } from "react-toastify";
 
 const Singup = () => {
@@ -19,6 +22,7 @@ const Singup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [sendMail] = useForgotPasswordMutation();
   const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -30,15 +34,24 @@ const Singup = () => {
 
   const submitHandler = async (data, e) => {
     e.preventDefault();
-    try {
-      const res = await login({
-        email: data.email,
-        password: data.password,
-      }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate("/app");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+    if (forgotPassword) {
+      try {
+        const res = await sendMail({ email: data.email }).unwrap();
+        toast.success("Check your mail for link to reset your password");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    } else {
+      try {
+        const res = await login({
+          email: data.email,
+          password: data.password,
+        }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate("/app");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
     }
   };
 
