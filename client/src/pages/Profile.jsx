@@ -114,7 +114,7 @@ const Profile = () => {
         </div>
         <div className="h-2/3 bg-primary w-full relative flex flex-col items-center">
           <img
-            className="w-28 rounded-full z-20 absolute -top-24"
+            className="w-28 rounded-full z-20 absolute -top-24 "
             src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
             alt="avatar"
           />
@@ -149,7 +149,12 @@ const Profile = () => {
                   tasks.tasks.map((task, i) => {
                     return (
                       <li key={i}>
-                        <Task key={task.id} id={task.id} name={task.name} checked={task.checked} />
+                        <Task
+                          key={task._id}
+                          id={task._id}
+                          name={task.name}
+                          checked={task.checked}
+                        />
                       </li>
                     );
                   })}
@@ -209,10 +214,13 @@ const Profile = () => {
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16 relative">
             <div to="/profile" className="absolute top-32 text-center">
               <img
-                className="w-28 rounded-full mb-2"
+                className="w-28 rounded-full mb-2 peer relative cursor-pointer"
                 src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
                 alt="avatar"
               />
+              <div className="w-28 bg-black/60 h-28 absolute top-0 rounded-full justify-center items-center text-white text-xs hidden peer-hover:flex cursor-pointer z-10">
+                Change Photo
+              </div>
               <span className="text-2xl font-bold">{name}</span>
             </div>
           </div>

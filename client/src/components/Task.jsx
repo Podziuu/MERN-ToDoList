@@ -15,14 +15,14 @@ const Task = ({ id, name, className, checked }) => {
   return (
     <div className={` group flex items-center ${className}`}>
       <input
-        className="w-6 h-6 rounded-full absolute mr-4 opacity-0 z-20 peer"
+        className="!w-6 !h-6 rounded-full absolute opacity-0 z-20 peer"
         type="checkbox"
         id={id}
         //ref={checkBoxRef}
         onChange={clickHandler}
         checked={isChecked}
       />
-      <div className="w-8 h-8 bg-transparent border-2 border-black rounded-full hidden peer-checked:flex peer-checked:border-[#984EAF] justify-center items-center group-hover:scale-[1.1] transition">
+      <div className="!w-8 !h-8 bg-transparent border-2 border-black rounded-full hidden peer-checked:flex peer-checked:border-[#984EAF] justify-center items-center group-hover:scale-[1.1] transition">
         <svg
           width="36px"
           height="36px"
@@ -42,7 +42,7 @@ const Task = ({ id, name, className, checked }) => {
           </g>
         </svg>
       </div>
-      <div className="w-8 h-8 bg-transparent border-2 border-black rounded-full  peer-checked:hidden group-hover:scale-[1.1] transition" />
+      <div className="!w-8 !h-8 bg-transparent border-2 border-black rounded-full peer-checked:hidden group-hover:scale-[1.1] transition shrink-0" />
       <label
         className="ml-12 text-lg peer-checked:text-[#505050] peer-checked:line-through group-hover:scale-[1.05] transition"
         htmlFor={id}

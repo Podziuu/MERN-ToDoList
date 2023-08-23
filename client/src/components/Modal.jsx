@@ -1,24 +1,18 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { Backdrop, Input, Dropdown, Button, RadioInput } from "../components";
+import {
+  Backdrop,
+  Input,
+  Dropdown,
+  Button,
+  RadioInput,
+  ModalOverlay,
+} from "../components";
 import { useForm } from "react-hook-form";
 import { useAddTaskMutation } from "../store/slices/taskApiSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
-const ModalOverlay = ({ children }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed z-50 "
-    >
-      <div className="">{children}</div>
-    </motion.div>
-  );
-};
 
 const Modal = ({ onClick }) => {
   const {

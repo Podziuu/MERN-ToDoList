@@ -14,6 +14,7 @@ import Spinner from "./Spinner";
 import MobileTasks from "./MobileTasks";
 import DesktopTasks from "./DesktopTasks";
 import MobileMenu from "./MobileMenu";
+import ModalOverlay from "./ModalOverlay";
 
 export {
   Backdrop,
@@ -32,4 +33,5 @@ export {
   MobileTasks,
   DesktopTasks,
   MobileMenu,
+  ModalOverlay,
 };
