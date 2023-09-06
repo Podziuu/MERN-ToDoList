@@ -35,6 +35,9 @@ const Reset = () => {
         throw new Error(res.error.data.message);
       }
       toast.success(res.message + ". You will be redirected in 3s");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       toast.error(err?.data?.message || err.error || err.message);
     }

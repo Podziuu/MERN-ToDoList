@@ -84,10 +84,12 @@ const getStats = asyncHandler(async (req, res) => {
   const mostFrequentCategory = mostFrequentProperty(tasks, "category");
   const mostFrequentDay = mostFrequentProperty(tasks, "day");
   const completedTasks = tasks.filter((task) => task.checked);
-  const completionPercentage = (
+  let completionPercentage = (
     (completedTasks.length / tasks.length) *
     100
   ).toFixed(2);
+
+  if(completionPercentage === "NaN") completionPercentage = 0;
 
   res.status(200).json({
     dayStreak: user.dayStreak,
@@ -158,7 +160,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
       `,
   });
 
-  console.log(info);
   res.json("Good");
 });
 

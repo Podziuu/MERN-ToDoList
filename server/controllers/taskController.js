@@ -130,7 +130,6 @@ const deleteTasks = asyncHandler(async (req, res) => {
     },
     { session: sess }
   );
-  console.log(count);
   await User.updateMany(
     {
       _id: user._id,

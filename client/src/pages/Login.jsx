@@ -3,11 +3,12 @@ import { NavBar, Footer, Input, Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/slices/authSlice";
 import {
   useLoginMutation,
   useForgotPasswordMutation,
+  useCheckAuthQuery,
 } from "../store/slices/userApiSlice";
 import { toast } from "react-toastify";
 
@@ -22,15 +23,15 @@ const Singup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [sendMail] = useForgotPasswordMutation();
+  const [sendMail, { isLoading: sendingMail }] = useForgotPasswordMutation();
   const [login, { isLoading }] = useLoginMutation();
-  const { userInfo } = useSelector((state) => state.auth);
+  const { data } = useCheckAuthQuery();
 
   useEffect(() => {
-    if (userInfo) {
+    if (data?.isAuthenticated) {
       navigate("/app");
     }
-  }, [navigate, userInfo]);
+  }, [navigate, data]);
 
   const submitHandler = async (data, e) => {
     e.preventDefault();
@@ -124,7 +125,7 @@ const Singup = () => {
                 text={forgotPassword ? "Reset Password" : "Log In"}
                 filled
                 full
-                isLoading={isLoading}
+                isLoading={isLoading || sendingMail}
               />
               <div
                 className={`flex ${

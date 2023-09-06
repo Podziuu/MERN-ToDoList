@@ -1,77 +1,15 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import {
-  MenuButton,
   Task,
-  Menu,
-  Modal,
-  Button,
   Stat,
   Spinner,
 } from "../components";
-import { useSelector, useDispatch } from "react-redux";
-import { changeDay } from "../store/slices/ui-slice";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetStatsQuery } from "../store/slices/userApiSlice";
 import { useGetAllTasksQuery } from "../store/slices/taskApiSlice";
-
-const WEEK_DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
-const TASKS = [
-  {
-    id: 1,
-    name: "School",
-  },
-  {
-    id: 2,
-    name: "Workout",
-  },
-  {
-    id: 3,
-    name: "Lunch",
-  },
-  {
-    id: 4,
-    name: "Dishes",
-  },
-  {
-    id: 5,
-    name: "Mathematic",
-  },
-  {
-    id: 6,
-    name: "Physics",
-  },
-  {
-    id: 7,
-    name: "gdsagsdagsdaga sdgsgdsags dagdsagdsagds",
-  },
-  {
-    id: 8,
-    name: "JAcka",
-  },
-  {
-    id: 9,
-    name: "dog",
-  },
-  {
-    id: 10,
-    name: "cat",
-  },
-  {
-    id: 11,
-    name: "clean",
-  },
-];
 
 const Profile = () => {
   const [isStats, setIsStats] = useState(false);
@@ -79,13 +17,8 @@ const Profile = () => {
 
   const { name } = useSelector((state) => state.auth.userInfo);
 
-  console.log(name);
-
   const { data } = useGetStatsQuery();
   const { data: tasks } = useGetAllTasksQuery();
-  console.log(tasks);
-
-  console.log(data);
 
   const clickHandler = (e) => {
     if (e.target.innerText === "Stats") {
@@ -180,7 +113,7 @@ const Profile = () => {
                   title="Most Active Day"
                 />
                 <Stat
-                  stat={`${data.completionPercentage || "Add Tasks"} %`}
+                  stat={`${data.completionPercentage || "0"} %`}
                   title="Completion tasks"
                 />
               </div>
@@ -212,15 +145,15 @@ const Profile = () => {
         </div>
         <div className="bg-gradient-login bg-cover h-screen w-full">
           <div className="w-full h-1/5 bg-black-primary border-b border-primary flex justify-between items-center p-16 relative">
-            <div to="/profile" className="absolute top-32 text-center">
+            <div
+              to="/profile"
+              className="absolute top-32 text-center"
+            >
               <img
-                className="w-28 rounded-full mb-2 peer relative cursor-pointer"
+                className="w-28 rounded-full mb-2 relative"
                 src="https://img.freepik.com/darmowe-wektory/awatar-postaci-biznesmen-na-bialym-tle_24877-60111.jpg?w=2000"
                 alt="avatar"
               />
-              <div className="w-28 bg-black/60 h-28 absolute top-0 rounded-full justify-center items-center text-white text-xs hidden peer-hover:flex cursor-pointer z-10">
-                Change Photo
-              </div>
               <span className="text-2xl font-bold">{name}</span>
             </div>
           </div>
@@ -253,33 +186,13 @@ const Profile = () => {
                   glass
                 />
                 <Stat
-                  stat={`${data.completionPercentage || "Add Tasks"} %`}
+                  stat={`${data.completionPercentage || "0"} %`}
                   title="Completion tasks"
                   glass
                 />
               </div>
             )}
             {!data && <Spinner />}
-            {/* <div className="h-4/5 text-center">
-              <h4 className="text-3xl my-6 font-bold">Optional Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-center">
-                <ul className="flex flex-col justify-center relative items-center max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
-                  {TASKS.map((task) => {
-                    return <Task key={task.id} id={task.id} name={task.name} />;
-                  })}
-                </ul>
-              </div>
-            </div>
-            <div className="h-4/5 text-center">
-              <h4 className="text-3xl my-6 font-bold">Must to do Tasks</h4>
-              <div className="h-full w-[350px] lg:w-[400px] bg-white/40 border border-black shadow-xl relative flex items-center">
-                <ul className="flex flex-col justify-center relative items-center max-h-[85%] gap-y-6 p-16 overflow-y-scroll">
-                  {TASKS.map((task) => {
-                    return <Task key={task.id} id={task.id} name={task.name} />;
-                  })}
-                </ul>
-              </div>
-            </div> */}
           </div>
         </div>
       </section>

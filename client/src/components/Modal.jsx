@@ -48,7 +48,6 @@ const Modal = ({ onClick }) => {
       }
       toast.success("You successfully add new task!");
     } catch (err) {
-      console.log(err);
       toast.error(err?.data?.message || err.error || err.message);
     }
   };
