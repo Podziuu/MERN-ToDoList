@@ -8,9 +8,8 @@ const generateToken = (res, userId) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
-    sameSite: "None",
+    sameSite: "Strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    domain: "64f8c3bde22afe11d9d4937f--strong-kleicha-518bbc.netlify.app"
   });
 };
 
