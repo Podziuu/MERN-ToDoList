@@ -22,7 +22,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["UserAuth"],
     }),
     getStats: builder.query({
       query: () => ({
@@ -34,7 +34,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${USERS_URL}/check`,
       }),
-      providesTags: ["User"],
+      providesTags: ["UserAuth"],
     }),
     forgotPassword: builder.mutation({
       query: (email) => ({

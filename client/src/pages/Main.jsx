@@ -63,7 +63,6 @@ const Main = () => {
   const logoutHandler = async () => {
     await logoutUser();
     dispatch(logout());
-    navigate("/login");
   };
 
   const deleteHandler = async () => {
